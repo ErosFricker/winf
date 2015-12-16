@@ -1,0 +1,23 @@
+html,body {
+	height:100%;
+	width:100%;
+}
+
+.module {
+	height:100%;
+	width:100%;
+}
+
+.content {
+	width:100%;
+	box-sizing:border-box;
+	padding:10%;
+	font-size:1em;
+}
+
+.bigTitle {
+	font-size:2em;
+	color:#333;
+	width:100%;
+	text-align:left;
+}
