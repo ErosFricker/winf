@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<f:view>
+	<f:metadata>
+		<!-- Start a new process instance. Process Definition Key is read internally from
+         request parameters and cached in the CDI conversation scope.
+    -->
+		<f:event type="preRenderView"
+			listener="#{camundaTaskForm.startProcessInstanceByKeyForm()}" />
+	</f:metadata>
+	<h:head>
+		<title>Mark Tasks as finished</title>
+	</h:head>
+	<h:body>
+			<h1>Complete your tasks</h1>
+		<h:dataTable value="#{tasklist.todolist}" var="task">
+			<h:column>
+			<f:facet name="header">Completed</f:facet>
+				<h:selectBooleanCheckbox disabled="true" value="#{task.completed}"></h:selectBooleanCheckbox>
+		</h:column>
+			<h:column>
+				<f:facet name="header">Name</f:facet>
+		#{task.name}
+		</h:column>
+			<h:column>
+				<f:facet name="header">Priority</f:facet>
+		#{task.priority}
+		</h:column>
+			<h:column>
+				<h:form id="completeForm">
+					<h:commandButton value="Complete Task"
+					disabled="#{task.completed}"
+						action="#{markAsFinishedController.markAsFinished(task)}" />
+				</h:form>
+			</h:column>
+		</h:dataTable>
+
+		<h:form id="submitForm">
+			<h:commandButton id="submit_button" value="Finish"
+				action="#{camundaTaskForm.completeProcessInstanceForm()}" />
+		</h:form>
+
+	</h:body>
+</f:view>
+</html>

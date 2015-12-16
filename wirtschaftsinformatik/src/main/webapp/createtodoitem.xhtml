@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<f:view>
+	<f:metadata>
+		<!-- Start a new process instance. Process Definition Key is read internally from
+         request parameters and cached in the CDI conversation scope.
+    -->
+		<f:event type="preRenderView"
+			listener="#{camundaTaskForm.startProcessInstanceByKeyForm()}" />
+	</f:metadata>
+	<h:head>
+
+		<title>Create To-Do Item</title>
+	</h:head>
+	<h:body>
+		<h1>Create your new task</h1>
+		<h:form id="inputForm">
+			<h:panelGrid columns="1">
+				<p>
+					<label for="name">Name</label>
+					<h:inputText id="name" binding="#{nameInputText}"
+						required="true" />
+				</p>
+				<p>
+					<label for="priority">Priority</label>
+					<h:selectOneMenu id="priority"
+						binding="#{priorityChooser}">
+						<f:selectItem itemValue="1" itemLabel="1" />
+						<f:selectItem itemValue="2" itemLabel="2" />
+						<f:selectItem itemValue="3" itemLabel="3" />
+					</h:selectOneMenu>
+				</p>
+				<p>1 = !!!, 2 = !!, 3 = !</p>
+			</h:panelGrid>
+			<h:commandButton id="persistTaskButton" value="Create Item"
+				action="#{todoListController.persistTask(nameInputText.value, priorityChooser.value)}" />
+			
+			<h:messages style="color:red;margin:8px;" />
+		</h:form>
+<h:form id="submitForm">
+			<h:commandButton id="submit_button" value="Finish"
+				action="#{camundaTaskForm.completeProcessInstanceForm()}" />
+		</h:form>
+		<h:dataTable value="#{tasklist.todolist}" var="task">
+			<h:column>
+				<f:facet name="header">Name</f:facet>
+		#{task.name}
+		</h:column>
+			<h:column>
+				<f:facet name="header">Priority</f:facet>
+		#{task.priority}
+		</h:column>
+			<h:column>
+				<f:facet name="header">Completed</f:facet>
+				<h:selectBooleanCheckbox disabled="true" value="#{task.completed}"></h:selectBooleanCheckbox>
+			</h:column>
+		</h:dataTable>
+	</h:body>
+</f:view>
+</html>
